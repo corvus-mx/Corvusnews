@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Seguridad para Filtraciones · Corvus News</title>
+  <meta name="description" content="Aprende cómo enviar filtraciones de forma completamente segura y anónima. Guía paso a paso para proteger tu identidad.">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .guide-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .guide-hero {
+      text-align: center;
+      margin-bottom: 4rem;
+      padding: 3rem 0;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-primary);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .guide-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+    
+    .guide-title {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--success), var(--accent-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .guide-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+    
+    .quick-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, var(--success), #00cc66);
+      color: var(--bg-primary);
+      padding: 1rem 2rem;
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.125rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .quick-action:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .trust-banner {
+      background: var(--bg-secondary);
+      border: 1px solid var(--success);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin: 3rem 0;
+      text-align: center;
+    }
+    
+    .trust-banner-icon {
+      font-size: 3rem;
+      color: var(--success);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .trust-banner-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--success);
+    }
+    
+    .guide-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .section-icon {
+      color: var(--accent-primary);
+      font-size: 2rem;
+    }
+    
+    .step-list {
+      list-style: none;
+      counter-reset: step-counter;
+    }
+    
+    .step-item {
+      counter-increment: step-counter;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--accent-primary);
+      position: relative;
+    }
+    
+    .step-item::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: -2px;
+      top: -10px;
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+    
+    .step-title {
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+    
+    .step-description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    
+    .method-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .method-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .method-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-primary);
+    }
+    
+    .method-card.recommended {
+      border-color: var(--success);
+      background: linear-gradient(135deg, var(--bg-secondary), rgba(0, 255, 136, 0.05));
+    }
+    
+    .method-card.recommended::before {
+      content: 'Recomendado';
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--success);
+      color: var(--bg-primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .method-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .method-card.recommended .method-icon {
+      color: var(--success);
+    }
+    
+    .method-card:not(.recommended) .method-icon {
+      color: var(--accent-primary);
+    }
+    
+    .method-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+    
+    .method-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .method-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    
+    .method-card.recommended .method-action {
+      background: var(--success);
+      color: var(--bg-primary);
+    }
+    
+    .method-card:not(.recommended) .method-action {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+    
+    .method-action:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .pgp-section {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .pgp-title {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .code-block {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: var(--accent-primary);
+      overflow-x: auto;
+      position: relative;
+    }
+    
+    .copy-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .copy-button:hover {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+    
+    .warning-box {
+      background: rgba(255, 170, 0, 0.1);
+      border: 1px solid var(--warning);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .warning-title {
+      color: var(--warning);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .security-tips {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .security-tip {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .tip-icon {
+      color: var(--success);
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    
+    .tip-content {
+      flex: 1;
+    }
+    
+    .tip-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+    
+    .tip-description {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    
+    @media (max-width: 768px) {
+      .guide-container {
+        padding: 1rem;
+      }
+      
+      .guide-title {
+        font-size: 2rem;
+      }
+      
+      .guide-section {
+        padding: 1.5rem;
+      }
+      
+      .method-cards {
+        grid-template-columns: 1fr;
+      }
+      
+      .security-tips {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="topbar">
+    <div class="topbar-container">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-text">Corvus News</span>
+      </a>
+      
+      <div class="nav-desktop">
+        <a href="feeds/" class="nav-link">
+          Noticias
+        </a>
+        <a href="guia.html" class="nav-link">
+          Guía Segura
+        </a>
+        <a href="mirrors.html" class="nav-link">
+          Mirrors
+        </a>
+        <a href="contacto.html" class="nav-cta">
+          Contacto
+        </a>
+      </div>
+      
+      <button class="menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+        <span id="menu-icon">☰</span>
+      </button>
+    </div>
+    
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="feeds/" class="nav-link">
+        Noticias
+        </a>
+      <a href="guia.html" class="nav-link">
+        Guía Segura
+      </a>
+      <a href="mirrors.html" class="nav-link">
+        Mirrors
+      </a>
+      <a href="contacto.html" class="nav-cta">
+        Contacto
+      </a>
+    </div>
+  </nav>
+<br/>
+<br/>
+<br/>
+
+  <main>
+    <div class="guide-container">
+      <!-- Hero Section -->
+      <section class="guide-hero">
+        <h1 class="guide-title">Guía de Seguridad</h1>
+        <p class="guide-subtitle">
+          Aprende cómo enviar filtraciones de forma completamente segura y anónima
+        </p>
+        <a href="contacto.html" class="quick-action" target="_blank">
+          Enviar Ahora
+        </a>
+      </section>
+
+      <!-- Trust Banner -->
+      <div class="trust-banner">
+        <h2 class="trust-banner-title">Tu Anonimato es Absoluto</h2>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+          En Corvus News <strong>nunca</strong> almacenamos datos personales ni revelamos información 
+          de nuestras fuentes. Utilizamos protocolos de seguridad militar y cifrado de extremo a extremo. 
+          Tu protección es nuestra prioridad número uno.
+        </p>
+      </div>
+
+      <!-- Quick Start Methods -->
+      <section class="guide-section">
+        <h2 class="section-title">
+          Contacto Seguro
+        </h2>
+
+        <!--
+        <div class="method-cards">
+          <div class="method-card recommended">
+            <h3 class="method-title">Signal (Recomendado)</h3>
+            <p class="method-description">
+              La forma más segura y rápida de contactarnos. Signal utiliza cifrado de extremo a extremo 
+              y no almacena metadatos. Ideal para enviar documentos, audios y mensajes.
+            </p>
+            <a href="https://signal.me/#p/+525512345678" class="method-action" target="_blank">
+              Abrir Signal
+            </a>
+          </div>
+          -->
+          <div class="method-card">
+            <h3 class="method-title">Email Cifrado</h3>
+            <p class="method-description">
+              Para filtraciones complejas que requieren documentación extensa, utiliza nuestro correo ProtonMail,
+              que ya está cifrado de extremo a extremo por defecto.
+              Para mayor seguridad en archivos altamente sensibles
+              puedes integrar PGP adicionalmente para cifrar los mensajes y adjuntos con tu propia clave.
+            </p>
+            <a href="mailto:corvusleaks@protonmail.com" class="method-action">
+              Enviar Email
+            </a>
+          </div>
+        </div>
+
+
+      <!-- Step by Step Guide -->
+      <section class="guide-section">
+        <h2 class="section-title">
+          Pasos para una Filtración Segura
+        </h2>
+        
+        <ol class="step-list">
+          <li class="step-item">
+            <h3 class="step-title">Prepara tu Evidencia</h3>
+            <p class="step-description">
+              Antes de enviar cualquier documento, foto o audio, elimina todos los metadatos 
+              (autor, ubicación, fecha de creación). Borra cualquier información personal 
+              que pueda identificarte. Usa herramientas como ExifTool o aplicaciones de limpieza de metadatos.
+            </p>
+          </li>
+          
+          <li class="step-item">
+            <h3 class="step-title">Conéctate de Forma Segura</h3>
+            <p class="step-description">
+              Usa una conexión privada y confiable. Evita WiFi públicos, cibercafés o redes compartidas. 
+              Si es posible, utiliza una VPN confiable o la red Tor para ocultar tu ubicación real.
+            </p>
+          </li>
+          
+          <li class="step-item">
+            <h3 class="step-title">Abre tu cuenta en proton mai </h3>
+            <p class="step-description">
+             Te recomendamos no abrir cuenta con tus datos reales, crea un alias o usa correos temporales.
+              ProtonMail es nuestra eleccion de confianza
+            </p>
+          </li>
+          
+          <li class="step-item">
+            <h3 class="step-title">Redacta tu Mensaje</h3>
+            <p class="step-description">
+              <strong>NUNCA</strong> incluyas tu nombre real, datos personales, o información que pueda identificarte. 
+              Describe los hechos de forma objetiva, incluye contexto relevante y especifica por qué es importante para el interés público.
+            </p>
+          </li>
+          
+          <li class="step-item">
+            <h3 class="step-title">Envía y Mantente Seguro</h3>
+            <p class="step-description">
+              Después de enviar tu filtración, elimina cualquier rastro de la comunicación de tus dispositivos. 
+              Nuestro equipo se pondrá en contacto contigo solo si es absolutamente necesario para verificar información.
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- PGP Section -->
+      <section class="guide-section">
+        <h2 class="section-title">
+          Cifrado PGP Avanzado
+        </h2>
+        
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+          Para filtraciones extremadamente sensibles, recomendamos usar cifrado PGP. 
+          Este método garantiza que solo nosotros podamos leer tu mensaje.
+        </p>
+        
+        <div class="pgp-section">
+          <div class="pgp-section">
+  <h3 class="pgp-title">Ejemplo de cómo usar PGP</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+    Así es como puedes cifrar tu mensaje o archivo con nuestra clave pública:
+  </p>
+
+  <div class="code-block">
+    <pre>
+# 1) Guarda nuestra clave pública y añádela a tu llavero:
+gpg --import clave-publica.asc
+
+# 2) Escribe tu mensaje en un archivo de texto:
+nano mensaje.txt
+
+# 3) Cifra el archivo para Corvus News:
+gpg --encrypt --armor --recipient corvusleaks@protonmail.com mensaje.txt
+
+# Esto generará mensaje.txt.asc que puedes adjuntar en tu correo ProtonMail.
+    </pre>
+  </div>
+
+  <p style="color: var(--text-secondary); margin-top: 1rem;">
+    Si usas ProtonMail, también puedes activar PGP integrado directamente al redactar el correo: 
+    adjunta el archivo cifrado o usa la opción de cifrado avanzado desde la configuración de seguridad.
+  </p>
+</div>
+          <h3 class="pgp-title">
+            Nuestra Clave Pública PGP
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            Copia esta clave e impórtala en tu cliente PGP (GPG, Thunderbird, ProtonMail, etc.):
+          </p>
+          
+          <div class="code-block">
+            <button class="copy-button" onclick="copyPGPKey()">Copiar</button>
+            <pre id="pgp-key">-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: OpenPGP.js v4.10.10
+Comment: https://openpgpjs.org
+
+xjMEYE2vARYJKwYBBAHaRw8BAQdAK8+KE6yCNGnxLVXdU9tTQvxB8sfuTBzh
+M8+KE6yCNGnxLVXdU9tTQvxB8sfuTBzhM8+KE6yCNGnxLVXdU9tTQvxB8sfu
+TBzhM8+KE6yCNGnxLVXdU9tTQvxB8sfuTBzhM8+KE6yCNGnxLVXdU9tTQvxB
+8sfuTBzhM8+KE6yCNGnxLVXdU9tTQvxB8sfuTBzh
+=AbCd
+-----END PGP PUBLIC KEY BLOCK-----</pre>
+          </div>
+          
+          <div class="warning-box">
+            <h4 class="warning-title">
+              Importante
+            </h4>
+            <p style="color: var(--text-secondary);">
+              Si no estás familiarizado con PGP, te recomendamos usar protonmail normal en su lugar. 
+              El cifrado PGP mal implementado puede ser menos seguro.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Security Tips -->
+      <section class="guide-section">
+        <h2 class="section-title">
+          Consejos de Seguridad Adicionales
+        </h2>
+        
+        <div class="security-tips">
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Usa Tor Browser</h4>
+              <p class="tip-description">
+                Para máximo anonimato, accede a nuestro sitio web a través de Tor Browser. 
+                Esto oculta tu dirección IP real.
+              </p>
+            </div>
+          </div>
+          
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Dispositivos Limpios</h4>
+              <p class="tip-description">
+                Si es posible, usa un dispositivo que no esté asociado contigo personalmente 
+                para realizar la filtración.
+              </p>
+            </div>
+          </div>
+          
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Elimina Metadatos</h4>
+              <p class="tip-description">
+                Siempre limpia los metadatos de fotos, documentos y archivos antes de enviarlos. 
+                Pueden contener información que te identifique.
+              </p>
+            </div>
+          </div>
+          
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Múltiples Copias</h4>
+              <p class="tip-description">
+                Mantén copias seguras de tu evidencia en múltiples ubicaciones por si necesitas 
+                enviar información adicional.
+              </p>
+            </div>
+          </div>
+          
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Tiempo de Espera</h4>
+              <p class="tip-description">
+                No esperes respuesta inmediata. Nuestro proceso de verificación puede tomar días 
+                o semanas dependiendo de la complejidad.
+              </p>
+            </div>
+          </div>
+          
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Comunicación Mínima</h4>
+              <p class="tip-description">
+                Solo nos comunicaremos contigo si es absolutamente necesario para verificar 
+                información. Nunca pediremos datos personales.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final CTA -->
+      <section class="guide-section" style="text-align: center;">
+        <h2 class="section-title" style="justify-content: center;">
+          ¿Listo para Compartirnos tu Noticia?
+        </h2>
+        
+        <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+          Tu información puede cambiar vidas y exponer la corrupción. Estamos aquí para protegerte 
+          y asegurar que tu voz sea escuchada de forma segura.
+        </p>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="contacto.html" class="btn btn-secondary">
+            Ver Todas las Opciones
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>
+          Corvus News
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+          Tu seguridad es nuestra prioridad. Protegemos fuentes, exponemos la verdad.
+        </p>
+      </div>
+      
+      
+      <div class="footer-section">
+        <h3>
+          Recursos
+        </h3>
+        <ul>
+          <li><a href="mirrors.html">Mirrors Tor</a></li>
+          <li><a href="feeds/">Noticias</a></li>
+          <li><a href="index.html">Inicio</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 Corvus News. Periodismo independiente y seguro.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality
+    function toggleMobileMenu() {
+      const mobileNav = document.getElementById('nav-mobile');
+      const menuIcon = document.getElementById('menu-icon');
+      
+      mobileNav.classList.toggle('show');
+      menuIcon.textContent = mobileNav.classList.contains('show') ? '✕' : '☰';
+    }
+
+    // Copy PGP key functionality
+    function copyPGPKey() {
+      const pgpKey = document.getElementById('pgp-key').textContent;
+      navigator.clipboard.writeText(pgpKey).then(() => {
+        const button = document.querySelector('.copy-button');
+        const originalText = button.textContent;
+        button.textContent = 'Copiado!';
+        button.style.background = 'var(--success)';
+        button.style.color = 'var(--bg-primary)';
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.background = 'var(--bg-card)';
+          button.style.color = 'var(--text-secondary)';
+        }, 2000);
+      });
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const mobileNav = document.getElementById('nav-mobile');
+      const menuToggle = document.querySelector('.menu-toggle');
+      
+      if (!mobileNav.contains(event.target) && !menuToggle.contains(event.target)) {
+        mobileNav.classList.remove('show');
+        document.getElementById('menu-icon').textContent = '☰';
+      }
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const topbar = document.querySelector('.topbar');
+      if (window.scrollY > 100) {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
+                      (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        topbar.style.background = isDark ? 'rgba(0, 0, 0, 0.98)' : 'rgba(255, 255, 255, 0.98)';
+        topbar.style.boxShadow = isDark ? '0 4px 20px rgba(255, 255, 255, 0.1)' : '0 4px 20px rgba(0, 0, 0, 0.1)';
+      } else {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
+                      (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        topbar.style.background = isDark ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+        topbar.style.boxShadow = 'none';
+      }
+    });
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

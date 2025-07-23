@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Dónde termina la soberanía de México?</title>
+    <link rel="stylesheet" href="../../assets/style.css">
+    <style>
+        .caricatura-img {
+            display: block;
+            margin: 2rem auto;
+            max-width: 480px;
+            width: 100%;
+            border-radius: 0.8rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+        }
+        .caricatura-caption {
+            text-align: center;
+            color: #888;
+            font-size: 0.98rem;
+            margin-top: 0.3rem;
+            margin-bottom: 1.7rem;
+        }
+        @media (max-width: 600px) {
+            .caricatura-img {
+                max-width: 98vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-container">
+            <a href="../../index.html" class="topbar-brand">
+                <span class="brand-text">Corvus News</span>
+            </a>
+            <div class="nav-desktop">
+                <a href="./" class="nav-link">Noticias</a>
+                <a href="../../guia.html" class="nav-link">Guía Segura</a>
+                <a href="../../mirrors.html" class="nav-link">Mirrors</a>
+                <a href="../../contacto.html" class="nav-cta">Contacto</a>
+            </div>
+            <button class="menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+                <span id="menu-icon">☰</span>
+            </button>
+        </div>
+        <div class="nav-mobile" id="nav-mobile">
+            <a href="./" class="nav-link">Noticias</a>
+            <a href="../../guia.html" class="nav-link">Guía Segura</a>
+            <a href="../../mirrors.html" class="nav-link">Mirrors</a>
+            <a href="../../contacto.html" class="nav-cta">Contacto</a>
+        </div>
+    </nav>
+    <br/><br/><br/>
+    <main>
+        <section class="article-page-container">
+            <aside class="article-author-sidebar">
+                <div class="author-avatar">
+                    <span class="story-placeholder">👤</span>
+                </div>
+                <h3 class="author-name">Corvus</h3>
+                <p class="author-role">Periodista de Investigación Independiente</p>
+                <p class="author-bio">
+                    Corvus se dedica a desenterrar la verdad oculta detrás de los titulares, especializándose en corrupción, abusos de poder y los impactos de la tecnología en la sociedad mexicana. Su trabajo busca arrojar luz sobre las sombras, empoderando a los ciudadanos con información crítica.
+                </p>
+            </aside>
+            <article class="article-content">
+                <div class="article-meta">
+                    <span class="article-category">Soberanía</span>
+                    <span>23 de julio de 2025, 01:00 a.m.</span>
+                </div>
+                <h1 class="article-title">¿Dónde termina la soberanía de México?</h1>
+                <p class="article-subtitle">En un contexto geopolítico marcado por la presión comercial, la militarización de fronteras y la influencia creciente de potencias extranjeras, México enfrenta una encrucijada crítica: redefinir los límites de su soberanía. Más allá de discursos oficiales, la realidad muestra cómo decisiones en materia energética, seguridad y migración se ven condicionadas por actores externos. La pregunta clave no es si México es soberano, sino hasta qué punto puede ejercer plenamente esa soberanía sin ceder terreno ante intereses foráneos.</p>
+                <div class="article-body">
+                    <p>En los últimos años, el concepto de soberanía nacional ha sido repetido con insistencia desde todos los frentes: gobiernos, oposiciones, organismos internacionales, medios de comunicación. Sin embargo, la palabra parece alejarse cada vez más de su significado práctico y acercarse al terreno de lo simbólico. ¿Cuánto margen de maniobra tiene hoy México para tomar decisiones plenamente autónomas en asuntos clave como la seguridad, la economía o la migración?</p>
+                    <img src="soberania.png" alt="Imagen relacionada" class="caricatura-img"><div class="caricatura-caption">soberania de mexico en peligro</div>
+                </div>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <!-- Footer content -->
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Corvus News. Todos los derechos reservados. Desarrollado con transparencia.</p>
+        </div>
+    </footer>
+    <script>
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('nav-mobile');
+            const menuIcon = document.getElementById('menu-icon');
+
+            mobileNav.classList.toggle('show');
+            menuIcon.textContent = mobileNav.classList.contains('show') ? '✕' : '☰';
+        }
+
+        document.addEventListener('click', function(event) {
+            const mobileNav = document.getElementById('nav-mobile');
+            const menuToggle = document.querySelector('.menu-toggle');
+
+            if (!mobileNav.contains(event.target) && !menuToggle.contains(event.target)) {
+                mobileNav.classList.remove('show');
+                document.getElementById('menu-icon').textContent = '☰';
+            }
+        });
+    </script>
+</body>
+</html>

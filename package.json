@@ -1,0 +1,29 @@
+{
+  "name": "corvus-mexileaks",
+  "version": "1.0.0",
+  "description": "CORVUS — MexiLeaks es un medio de periodismo de investigación independiente y distribuido.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "http-server . -o -p 3000",
+    "start": "http-server . -p 3000",
+    "build": "echo 'Static site - no build needed'",
+    "add": "node scripts/simple-add.js",
+    "deploy": "./scripts/git-deploy.sh"
+  },
+  "keywords": [
+    "journalism",
+    "leaks",
+    "investigation",
+    "mexico",
+    "whistleblowing"
+  ],
+  "author": "Corvus MexiLeaks",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "jsdom": "^23.2.0"
+  },
+  "dependencies": {
+    "minimist": "^1.2.8"
+  }
+}

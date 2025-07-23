@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirrors y Backups · Corvus News</title>
+  <meta name="description" content="Acceso alternativo y respaldo de Corvus News. Red distribuida imposible de censurar.">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .mirrors-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .mirrors-hero {
+      text-align: center;
+      margin-bottom: 4rem;
+      padding: 3rem 0;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-primary);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .mirrors-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+    
+    .mirrors-title {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .mirrors-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+    
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--success);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-xl);
+      color: var(--success);
+      font-weight: 600;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .mirrors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .mirror-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .mirror-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-primary);
+    }
+    
+    .mirror-card.primary {
+      border-color: var(--accent-primary);
+      background: linear-gradient(135deg, var(--bg-card), rgba(0, 212, 255, 0.05));
+    }
+    
+    .mirror-card.tor {
+      border-color: #9b59b6;
+      background: linear-gradient(135deg, var(--bg-card), rgba(155, 89, 182, 0.05));
+    }
+    
+    .mirror-card.ipfs {
+      border-color: #e67e22;
+      background: linear-gradient(135deg, var(--bg-card), rgba(230, 126, 34, 0.05));
+    }
+    
+    .mirror-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    
+    .mirror-card.primary .mirror-icon {
+      color: var(--accent-primary);
+    }
+    
+    .mirror-card.tor .mirror-icon {
+      color: #9b59b6;
+    }
+    
+    .mirror-card.ipfs .mirror-icon {
+      color: #e67e22;
+    }
+    
+    .mirror-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+    
+    .mirror-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .mirror-url {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
+    .mirror-link {
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: var(--accent-primary);
+      word-break: break-all;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    .mirror-status {
+      font-size: 0.75rem;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .copy-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .copy-button:hover {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+    
+    .mirror-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      font-size: 1.125rem;
+    }
+    
+    .mirror-card.primary .mirror-action {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: var(--bg-primary);
+    }
+    
+    .mirror-card.tor .mirror-action {
+      background: linear-gradient(135deg, #9b59b6, #8e44ad);
+      color: white;
+    }
+    
+    .mirror-card.ipfs .mirror-action {
+      background: linear-gradient(135deg, #e67e22, #d35400);
+      color: white;
+    }
+    
+    .mirror-action:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .security-info {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin: 3rem 0;
+    }
+    
+    .security-info-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .security-tips {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .security-tip {
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .tip-icon {
+      color: var(--accent-primary);
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    
+    .tip-content {
+      flex: 1;
+    }
+    
+    .tip-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+    
+    .tip-description {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    
+    .emergency-section {
+      background: linear-gradient(135deg, rgba(255, 68, 68, 0.1), rgba(255, 170, 0, 0.1));
+      border: 1px solid var(--warning);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin: 3rem 0;
+      text-align: center;
+    }
+    
+    .emergency-icon {
+      font-size: 4rem;
+      color: var(--warning);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    
+    .emergency-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--warning);
+    }
+    
+    .emergency-description {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .emergency-contacts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .emergency-contact {
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: var(--accent-primary);
+    }
+    
+    @media (max-width: 768px) {
+      .mirrors-container {
+        padding: 1rem;
+      }
+      
+      .mirrors-title {
+        font-size: 2rem;
+      }
+      
+      .mirrors-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .security-tips {
+        grid-template-columns: 1fr;
+      }
+      
+      .emergency-contacts {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="topbar">
+    <div class="topbar-container">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-text">Corvus News</span>
+      </a>
+      
+      <div class="nav-desktop">
+        <a href="feeds/" class="nav-link">
+          Noticias
+        </a>
+        <a href="guia.html" class="nav-link">
+          Guía Segura
+        </a>
+        <a href="mirrors.html" class="nav-link">
+          Mirrors
+        </a>
+        <a href="contacto.html" class="nav-cta">
+          Contacto
+        </a>
+      </div>
+      
+      <button class="menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+        <span id="menu-icon">☰</span>
+      </button>
+    </div>
+    
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="feeds/" class="nav-link">
+        Noticias
+      </a>
+      <a href="guia.html" class="nav-link">
+        Guía Segura
+      </a>
+      <a href="mirrors.html" class="nav-link">
+        Mirrors
+      </a>
+      <a href="contacto.html" class="nav-cta">
+        Contacto
+      </a>
+    </div>
+  </nav>
+<br/>
+<br/>
+<br/>
+  <main>
+    <div class="mirrors-container">
+      <!-- Hero Section -->
+      <section class="mirrors-hero">
+        <h1 class="mirrors-title">Mirrors & Backups</h1>
+        <p class="mirrors-subtitle">
+          Red distribuida imposible de censurar. Acceso garantizado desde cualquier lugar del mundo.
+        </p>
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          Todos los mirrors operativos
+        </div>
+        <h1>Mirrors en proceso</h1>
+        <!--</section>
+
+     Mirrors Grid 
+      <section class="mirrors-grid">
+        <!-- Main Mirror 
+        <div class="mirror-card primary">
+          <h2 class="mirror-title">Mirror Principal</h2>
+          <p class="mirror-description">
+            Nuestro mirror principal con acceso directo y rápido. Utiliza HTTPS y está optimizado 
+            para velocidad y disponibilidad máxima.
+          </p>
+          
+          <div class="mirror-url">
+            <button class="copy-button" onclick="copyToClipboard('https://mirror1.corvusNews.org')">Copiar</button>
+            <span class="mirror-link">https://mirror1.corvusNews.org</span>
+            <div class="mirror-status">
+              <span class="status-dot"></span>
+              Operativo - Latencia: 45ms
+            </div>
+          </div>
+          
+          <a href="https://mirror1.corvusNews.org" class="mirror-action" target="_blank">
+            Acceder al Mirror
+          </a>
+        </div>
+
+        <!-- Tor Mirror 
+        <div class="mirror-card tor">
+          <h2 class="mirror-title">Mirror Tor</h2>
+          <p class="mirror-description">
+            Acceso completamente anónimo a través de la red Tor. Oculta tu ubicación e identidad. 
+            Requiere Tor Browser para acceder.
+          </p>
+          
+          <div class="mirror-url">
+            <button class="copy-button" onclick="copyToClipboard('corvus3x7k2m9n8p4q5r6s.onion')">Copiar</button>
+            <span class="mirror-link">corvus3x7k2m9n8p4q5r6s.onion</span>
+            <div class="mirror-status">
+              <span class="status-dot"></span>
+              Operativo - Red Tor
+            </div>
+          </div>
+          
+          <a href="https://www.torproject.org/download/" class="mirror-action" target="_blank">
+            Descargar Tor Browser
+          </a>
+        </div>
+
+        <!-- IPFS Mirror 
+        <div class="mirror-card ipfs">
+          <h2 class="mirror-title">Mirror IPFS</h2>
+          <p class="mirror-description">
+            Almacenamiento distribuido e inmutable. El contenido está replicado en múltiples nodos 
+            globalmente, garantizando acceso permanente.
+          </p>
+          
+          <div class="mirror-url">
+            <button class="copy-button" onclick="copyToClipboard('ipfs://QmX7k2m9n8p4q5r6s3t4u5v6w7x8y9z')">Copiar</button>
+            <span class="mirror-link">ipfs://QmX7k2m9n8p4q5r6s3t4u5v6w7x8y9z</span>
+            <div class="mirror-status">
+              <span class="status-dot"></span>
+              Operativo - 847 nodos
+            </div>
+          </div>
+          
+          <a href="https://ipfs.io/ipfs/QmX7k2m9n8p4q5r6s3t4u5v6w7x8y9z" class="mirror-action" target="_blank">
+            Acceder vía IPFS
+          </a>
+        </div>
+
+        <!-- Backup Mirror
+        <div class="mirror-card">
+          <h2 class="mirror-title">Mirror de Respaldo</h2>
+          <p class="mirror-description">
+            Mirror secundario alojado en infraestructura independiente. Se activa automáticamente 
+            si el mirror principal no está disponible.
+          </p>
+          
+          <div class="mirror-url">
+            <button class="copy-button" onclick="copyToClipboard('https://backup.corvusNews.org')">Copiar</button>
+            <span class="mirror-link">https://backup.corvusNews.org</span>
+            <div class="mirror-status">
+              <span class="status-dot"></span>
+              Operativo - Standby
+            </div>
+          </div>
+          
+          <a href="https://backup.corvusNews.org" class="mirror-action" target="_blank">
+            Acceder al Backup
+          </a>
+        </div>
+      </section>
+      <!-- Security Information
+      <section class="security-info">
+        <h2 class="security-info-title">
+          Información de Seguridad
+        </h2>
+        
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+          Nuestros mirrors están diseñados para garantizar acceso continuo incluso bajo censura extrema. 
+          Cada mirror utiliza diferentes tecnologías y está alojado en jurisdicciones distintas.
+        </p>
+        
+        <div class="security-tips">
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Usa Tor para Máximo Anonimato</h4>
+              <p class="tip-description">
+                El mirror Tor oculta completamente tu identidad y ubicación. 
+                Ideal para acceso desde países con censura.
+              </p>
+            </div>
+          </div>
+          
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Guarda Múltiples URLs</h4>
+              <p class="tip-description">
+                Mantén guardadas todas las URLs de mirrors en caso de que 
+                alguno sea bloqueado temporalmente.
+              </p>
+            </div>
+          </div>
+          
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">IPFS es Inmutable</h4>
+              <p class="tip-description">
+                El contenido en IPFS no puede ser modificado o eliminado, 
+                garantizando la integridad de nuestras investigaciones.
+              </p>
+            </div>
+          </div>
+          
+          <div class="security-tip">
+            <div class="tip-content">
+              <h4 class="tip-title">Backups Automáticos</h4>
+              <p class="tip-description">
+                Todos nuestros mirrors se sincronizan automáticamente 
+                cada hora para mantener el contenido actualizado.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Emergency Access 
+      <section class="emergency-section">
+        <h2 class="emergency-title">Acceso de Emergencia</h2>
+        <p class="emergency-description">
+          Si todos los mirrors principales están bloqueados, utiliza estos métodos de acceso de emergencia. 
+          Estas direcciones se actualizan dinámicamente y están diseñadas para resistir censura avanzada.
+        </p>
+        
+        <div class="emergency-contacts">
+          <div class="emergency-contact">
+            <strong>Telegram:</strong><br>
+            @CorvusMirrors
+          </div>
+          <div class="emergency-contact">
+            <strong>Twitter/X:</strong><br>
+            @CorvusBackup
+          </div>
+          <div class="emergency-contact">
+            <strong>Signal:</strong><br>
+            +52 55 9999 0000
+          </div>
+          <div class="emergency-contact">
+            <strong>Email:</strong><br>
+            mirrors@protonmail.com
+          </div>
+        </div>
+        
+        <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.875rem;">
+          Estos canales publican URLs de mirrors actualizadas en caso de bloqueos masivos.
+        </p>
+      </section>
+
+      <!-- Technical Details
+      <section class="security-info">
+        <h2 class="security-info-title">
+          Detalles Técnicos
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+          <div style="background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-primary);">
+            <h4 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              Cifrado
+            </h4>
+            <ul style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+              <li>TLS 1.3 con Perfect Forward Secrecy</li>
+              <li>Certificados SSL de múltiples autoridades</li>
+              <li>HSTS y Certificate Pinning</li>
+            </ul>
+          </div>
+          
+          <div style="background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-primary);">
+            <h4 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              Infraestructura
+            </h4>
+            <ul style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+              <li>Servidores en 5 países diferentes</li>
+              <li>CDN global con 50+ nodos</li>
+              <li>Balanceadores de carga redundantes</li>
+            </ul>
+          </div>
+          
+          <div style="background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-primary);">
+            <h4 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              Respaldos
+            </h4>
+            <ul style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+              <li>Sincronización cada 15 minutos</li>
+              <li>Backups incrementales diarios</li>
+              <li>Almacenamiento distribuido en blockchain</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>
+          Corvus News
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+          Red distribuida e imposible de censurar. Acceso garantizado desde cualquier lugar.
+        </p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>
+          Mirrors Principales
+        </h3>
+        <!--
+        <ul>
+          <li><a href="https://mirror1.corvusNews.org">Mirror Principal</a></li>
+          <li><a href="https://backup.corvusNews.org">Mirror de Respaldo</a></li>
+          <li><a href="#">Mirror Tor (.onion)</a></li>
+        </ul>
+        -->
+      </div>
+      
+      <div class="footer-section">
+        <h3>
+          Acceso de Emergencia
+        </h3>
+        <ul>
+          <li><a href="contacto.html"">Email de Emergencia</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>
+          Contacto Principal
+        </h3>
+        <ul>
+          <li><a href="contacto.html">Contacto Seguro</a></li>
+          <li><a href="guia.html">Guía de Seguridad</a></li>
+          <li><a href="feeds/">Noticias</a></li>
+          <li><a href="index.html">Inicio</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 Corvus News. Red distribuida e imposible de censurar.</p>
+      <p>La información debe ser libre. La verdad no puede ser silenciada.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality
+    function toggleMobileMenu() {
+      const mobileNav = document.getElementById('nav-mobile');
+      const menuIcon = document.getElementById('menu-icon');
+      
+      mobileNav.classList.toggle('show');
+      menuIcon.textContent = mobileNav.classList.contains('show') ? '✕' : '☰';
+    }
+
+    // Copy to clipboard functionality
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        // Find the button that was clicked
+        const buttons = document.querySelectorAll('.copy-button');
+        buttons.forEach(button => {
+          if (button.onclick.toString().includes(text)) {
+            const originalText = button.textContent;
+            button.textContent = 'Copiado!';
+            button.style.background = 'var(--success)';
+            button.style.color = 'var(--bg-primary)';
+            
+            setTimeout(() => {
+              button.textContent = originalText;
+              button.style.background = 'var(--bg-card)';
+              button.style.color = 'var(--text-secondary)';
+            }, 2000);
+          }
+        });
+      }).catch(err => {
+        console.error('Error copying to clipboard:', err);
+      });
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const mobileNav = document.getElementById('nav-mobile');
+      const menuToggle = document.querySelector('.menu-toggle');
+      
+      if (!mobileNav.contains(event.target) && !menuToggle.contains(event.target)) {
+        mobileNav.classList.remove('show');
+        document.getElementById('menu-icon').textContent = '☰';
+      }
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const topbar = document.querySelector('.topbar');
+      if (window.scrollY > 100) {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
+                      (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        topbar.style.background = isDark ? 'rgba(0, 0, 0, 0.98)' : 'rgba(255, 255, 255, 0.98)';
+        topbar.style.boxShadow = isDark ? '0 4px 20px rgba(255, 255, 255, 0.1)' : '0 4px 20px rgba(0, 0, 0, 0.1)';
+      } else {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
+                      (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        topbar.style.background = isDark ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+        topbar.style.boxShadow = 'none';
+      }
+    });
+
+    // Mirror status simulation
+    function updateMirrorStatus() {
+      const statusElements = document.querySelectorAll('.mirror-status');
+      const statuses = [
+        'Operativo - Latencia: 45ms',
+        'Operativo - Red Tor',
+        'Operativo - 847 nodos',
+        'Operativo - Standby'
+      ];
+      
+      statusElements.forEach((element, index) => {
+        if (statuses[index]) {
+          element.innerHTML = `<span class="status-dot"></span>${statuses[index]}`;
+        }
+      });
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      updateMirrorStatus();
+      
+      // Simulate real-time updates every 30 seconds
+      setInterval(updateMirrorStatus, 30000);
+    });
+
+    // Add visual feedback to mirror actions
+    document.querySelectorAll('.mirror-action').forEach(button => {
+      button.addEventListener('click', function() {
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+  </script>
+</body>
+</html>
